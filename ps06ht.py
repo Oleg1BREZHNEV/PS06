@@ -15,7 +15,7 @@ from selenium.webdriver.common.by import By
 driver = webdriver.Chrome()
 
 # В отдельной переменной указываем сайт, который будем просматривать
-url = "https://tomsk.hh.ru/vacancies/programmist"
+url = "https://www.divan.ru/category/svetilniki"
 
 # Открываем веб-страницу
 driver.get(url)
@@ -25,7 +25,7 @@ time.sleep(3)
 
 # Находим все карточки с вакансиями с помощью названия класса
 # Названия классов берём с кода сайта
-vacancies = driver.find_elements(By.CLASS_NAME, 'vacancy-card--H8LvOiOGPll0jZvYpxIF')
+vacancies = driver.find_elements(By.CLASS_NAME, 'LlPhw')
 
 # Выводим вакансии на экран
 print(vacancies)
@@ -38,20 +38,20 @@ for vacancy in vacancies:
     try:
    # Находим элементы внутри вакансий по значению
    # Находим названия вакансии
-         title = vacancy.find_element(By.CSS_SELECTOR, 'span.vacancy-name--SYbxrgpHgHedVTkgI_cA').text
+         title = vacancy.find_element(By.CSS_SELECTOR, 'div.lsooF').text
      # Находим названия компаний
-         company = vacancy.find_element(By.CSS_SELECTOR, 'span.company-info-text--O32pGCRW0YDmp3BHuNOP').text
+         #company = vacancy.find_element(By.CSS_SELECTOR, 'span.company-info-text--O32pGCRW0YDmp3BHuNOP').text
      # Находим зарплаты
-         salary = vacancy.find_element(By.CSS_SELECTOR, 'span.compensation-text--cCPBXayRjn5GuLFWhGTJ').text
+         salary = vacancy.find_element(By.CSS_SELECTOR, 'div.pY3d2').text
      # Находим ссылку с помощью атрибута 'href'
-         link = vacancy.find_element(By.CSS_SELECTOR, 'a.bloko-link').get_attribute('href')
+         link = vacancy.find_element(By.CSS_SELECTOR, 'a').get_attribute('href')
    # Вставляем блок except на случай ошибки - в случае ошибки программа попытается продолжать
     except:
         print("произошла ошибка при парсинге")
         continue
 
 # Вносим найденную информацию в список
-    parsed_data.append([title, company, salary, link])
+    parsed_data.append([title, salary, link])
 
 # Закрываем подключение браузер
 driver.quit()
@@ -63,7 +63,7 @@ with open("ht.csv", 'w', newline='', encoding='utf-8') as file:
 # Создаём объект
     writer = csv.writer(file)
 # Создаём первый ряд
-    writer.writerow(['Название вакансии', 'название компании', 'зарплата', 'ссылка на вакансию'])
+    writer.writerow(['Название светильника', 'Цена', 'Ссылка на светильник'])
 
 # Прописываем использование списка как источника для рядов таблицы
     writer.writerows(parsed_data)
